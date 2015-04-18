@@ -16,6 +16,11 @@ import android.widget.TextView;
 
 import com.goldenhand.bleakfalls.homeworktracker.dummy.DummyContent;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
+
 /**
  * A list fragment representing a list of Homeworks. This fragment
  * also supports tablet devices by allowing list items to be given an
@@ -76,12 +81,17 @@ public class HomeworkListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GregorianCalendar due = new GregorianCalendar(2015,4,4);
+        Homework eg = new Homework("Assignment 1","Math",new GregorianCalendar(2015,4,4),new GregorianCalendar(2015,4,4),false);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
+        ArrayList<Homework> mHomeworkList = new ArrayList<Homework>();//TODO: onSavedInstanceState and getIntent
+        mHomeworkList.add(eg);
+        setListAdapter(new HomeworkAdapter(getActivity(), R.layout.activity_homework_item, mHomeworkList));
+        /*setListAdapter(new ArrayAdapter<HomeworkList.HomeworkItem>(
                 getActivity(),
-                R.layout.activity_homework_item,
-                DummyContent.ITEMS));
+                android.R.layout.simple_list_item_activated_1,
+                android.R.id.text1,
+                HomeworkList.homeworkItemList));*/
     }
 
     @Override
@@ -121,7 +131,7 @@ public class HomeworkListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        //mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
     }
 
     @Override
@@ -157,9 +167,9 @@ public class HomeworkListFragment extends ListFragment {
 
     private class HomeworkAdapter extends ArrayAdapter<Homework> {
         Context mContext;
-        private Homework[] mHomeworks;
+        private ArrayList<Homework> mHomeworks;
 
-        public HomeworkAdapter(Context context, int resource, Homework[] homeworks) {
+        public HomeworkAdapter(Context context, int resource, ArrayList<Homework> homeworks) {
             super(context, resource, homeworks);
             mContext = context;
             mHomeworks = homeworks;
@@ -181,7 +191,7 @@ public class HomeworkListFragment extends ListFragment {
                 holder = (ViewHolder) row.getTag();
             }
 
-            Homework currentHomework = mHomeworks[position];
+            Homework currentHomework = mHomeworks.get(position);
             holder.titleTextView.setText(currentHomework.getName());
             //holder.detailsTextView.setText(currentHomework.getSubjectName()) + currentHomework.getDueDate()
             //add more holder stuff TODO
@@ -201,7 +211,6 @@ public class HomeworkListFragment extends ListFragment {
             else {
                 imageView.setVisibility(View.VISIBLE);
             }*/
-
             return row;
         }
 

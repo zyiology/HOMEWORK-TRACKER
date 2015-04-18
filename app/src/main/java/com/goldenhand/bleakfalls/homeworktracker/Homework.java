@@ -3,15 +3,16 @@ package com.goldenhand.bleakfalls.homeworktracker;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Homework implements Serializable {
     String mName;
     String mSubjectName;
-    Date mDueDate;
-    Date mRemindDate;
+    GregorianCalendar mDueDate;
+    GregorianCalendar mRemindDate;
     boolean mDone;
 
-    public Homework(String mName, String mSubjectName, Date mDueDate, Date mRemindDate, boolean mDone) {
+    public Homework(String mName, String mSubjectName, GregorianCalendar mDueDate, GregorianCalendar mRemindDate, boolean mDone) {
         this.mName = mName;
         this.mSubjectName = mSubjectName;
         this.mDueDate = mDueDate;
@@ -35,19 +36,19 @@ public class Homework implements Serializable {
         this.mSubjectName = mSubjectName;
     }
 
-    public Date getDueDate() {
+    public GregorianCalendar getDueDate() {
         return mDueDate;
     }
 
-    public void setDueDate(Date mDueDate) {
+    public void setDueDate(GregorianCalendar mDueDate) {
         this.mDueDate = mDueDate;
     }
 
-    public Date getRemindDate() {
+    public GregorianCalendar getRemindDate() {
         return mRemindDate;
     }
 
-    public void setRemindDate(Date mRemindDate) {
+    public void setRemindDate(GregorianCalendar mRemindDate) {
         this.mRemindDate = mRemindDate;
     }
 

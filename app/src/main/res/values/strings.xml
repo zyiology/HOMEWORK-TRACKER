@@ -3,5 +3,6 @@
 
     <string name="app_name">HomeworkTracker</string>
     <string name="title_homework_detail">Homework Detail</string>
+    <string name="add_homework">Add Homework</string>
 
 </resources>
