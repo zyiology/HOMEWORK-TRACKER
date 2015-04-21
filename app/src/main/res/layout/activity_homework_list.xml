@@ -3,11 +3,6 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
-    <Button
-        android:id="@+id/add_homework"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_homework"/>
     <fragment
          android:id="@+id/homework_list"
         android:name="com.goldenhand.bleakfalls.homeworktracker.HomeworkListFragment"

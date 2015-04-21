@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.io.Serializable;
 
 
 /**
@@ -23,6 +28,8 @@ public class HomeworkDetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homework_detail);
 
+        final HomeworkContent homeworkContent = (HomeworkContent) getIntent().getExtras().get(HomeworkListActivity.HOMEWORK_CONTENT);
+
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -39,8 +46,8 @@ public class HomeworkDetailActivity extends ActionBarActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(HomeworkDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(HomeworkDetailFragment.ARG_ITEM_ID));
+            arguments.putString(HomeworkDetailFragment.ARG_ITEM_ID, getIntent().getStringExtra(HomeworkDetailFragment.ARG_ITEM_ID));
+            arguments.putSerializable(HomeworkListActivity.HOMEWORK_CONTENT, homeworkContent);
             HomeworkDetailFragment fragment = new HomeworkDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

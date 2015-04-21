@@ -12,7 +12,7 @@ import java.util.Map;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class HomeworkList {
-    Homework mHomeworks;
+    HomeworkContent.Homework mHomeworks;
     /**
      * An array of sample (dummy) items.
      */

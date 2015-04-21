@@ -12,13 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-
-import com.goldenhand.bleakfalls.homeworktracker.dummy.DummyContent;
-
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 
 /**
@@ -49,6 +43,8 @@ public class HomeworkListFragment extends ListFragment {
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
+
+
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
@@ -78,15 +74,13 @@ public class HomeworkListFragment extends ListFragment {
     public HomeworkListFragment() {
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GregorianCalendar due = new GregorianCalendar(2015,4,4);
-        Homework eg = new Homework("Assignment 1","Math",new GregorianCalendar(2015,4,4),new GregorianCalendar(2015,4,4),false);
 
-        ArrayList<Homework> mHomeworkList = new ArrayList<Homework>();//TODO: onSavedInstanceState and getIntent
-        mHomeworkList.add(eg);
-        setListAdapter(new HomeworkAdapter(getActivity(), R.layout.activity_homework_item, mHomeworkList));
+        //TODO: onSavedInstanceState and getIntent
+        setListAdapter(new HomeworkAdapter(getActivity(), R.layout.activity_homework_item, HomeworkListActivity.homeworkContent.mHomeworkList));
         /*setListAdapter(new ArrayAdapter<HomeworkList.HomeworkItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
@@ -129,6 +123,10 @@ public class HomeworkListFragment extends ListFragment {
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
 
+        mCallbacks.onItemSelected(HomeworkContent.mHomeworkList.get(position).getId().toString(
+
+        ));
+
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
         //mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
@@ -165,11 +163,11 @@ public class HomeworkListFragment extends ListFragment {
         mActivatedPosition = position;
     }
 
-    private class HomeworkAdapter extends ArrayAdapter<Homework> {
+    private class HomeworkAdapter extends ArrayAdapter<HomeworkContent.Homework> {
         Context mContext;
-        private ArrayList<Homework> mHomeworks;
+        private ArrayList<HomeworkContent.Homework> mHomeworks;
 
-        public HomeworkAdapter(Context context, int resource, ArrayList<Homework> homeworks) {
+        public HomeworkAdapter(Context context, int resource, ArrayList<HomeworkContent.Homework> homeworks) {
             super(context, resource, homeworks);
             mContext = context;
             mHomeworks = homeworks;
@@ -191,7 +189,7 @@ public class HomeworkListFragment extends ListFragment {
                 holder = (ViewHolder) row.getTag();
             }
 
-            Homework currentHomework = mHomeworks.get(position);
+            HomeworkContent.Homework currentHomework = mHomeworks.get(position);
             holder.titleTextView.setText(currentHomework.getName());
             //holder.detailsTextView.setText(currentHomework.getSubjectName()) + currentHomework.getDueDate()
             //add more holder stuff TODO

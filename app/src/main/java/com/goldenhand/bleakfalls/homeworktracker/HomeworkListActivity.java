@@ -31,11 +31,14 @@ public class HomeworkListActivity extends FragmentActivity
      * device.
      */
     private boolean mTwoPane;
+    public static HomeworkContent homeworkContent = new HomeworkContent();
+    public static String HOMEWORK_CONTENT = "com.goldenhand.bleakfalls.homeworktracker.homeworklistactivity.homeworkcontent";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homework_list);
+
 
         if (findViewById(R.id.homework_detail_container) != null) {
             // The detail container view will be present only in the
@@ -50,14 +53,6 @@ public class HomeworkListActivity extends FragmentActivity
                     .findFragmentById(R.id.homework_list))
                     .setActivateOnItemClick(true);
         }
-
-        Button mAddHomework = (Button) findViewById(R.id.add_homework);
-        mAddHomework.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         // TODO: If exposing deep links into your app, handle intents here.
     }
@@ -74,16 +69,16 @@ public class HomeworkListActivity extends FragmentActivity
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(HomeworkDetailFragment.ARG_ITEM_ID, id);
+            arguments.putSerializable(HOMEWORK_CONTENT, homeworkContent);
             HomeworkDetailFragment fragment = new HomeworkDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.homework_detail_container, fragment)
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.homework_detail_container, fragment).commit();
 
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, HomeworkDetailActivity.class);
+            detailIntent.putExtra(HOMEWORK_CONTENT, homeworkContent);
             detailIntent.putExtra(HomeworkDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
