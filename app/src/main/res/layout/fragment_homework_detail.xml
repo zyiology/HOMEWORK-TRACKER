@@ -3,18 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
-    <EditText
-        android:id="@+id/homework_name"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        tools:context=".HomeworkDetailFragment" /><!--android:textIsSelectable="true"-->
 
     <Button
         android:id="@+id/save_changes"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/save_changes"/>
+        android:text="@string/save_changes" />
+    <EditText
+        android:id="@+id/homework_name"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_below="@id/save_changes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".HomeworkDetailFragment" /><!--android:textIsSelectable="true"-->
+
+    <EditText
+        android:id="@+id/homework_subj_name"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_below="@id/homework_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".HomeworkDetailFragment" />
+
+    <Button
+        android:id="@+id/homework_due_date"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_below="@id/homework_subj_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".HomeworkDetailFragment" />
+
+
+    <Button
+        android:id="@+id/homework_remind_date"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_below="@id/homework_due_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".HomeworkDetailFragment" />
 
 </RelativeLayout>

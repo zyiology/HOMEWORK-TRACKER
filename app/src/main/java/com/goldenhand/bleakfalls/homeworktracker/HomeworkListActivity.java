@@ -54,6 +54,17 @@ public class HomeworkListActivity extends FragmentActivity
                     .setActivateOnItemClick(true);
         }
 
+        Button mAddHomeworkButton = (Button) findViewById(R.id.add_homework);
+        mAddHomeworkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //HomeworkContent.addItem()TODO
+
+            }
+        });
+
+        //TODO:ADD EXTENSION TOO MUCH HW SEE COUNSELLOR
+
         // TODO: If exposing deep links into your app, handle intents here.
     }
 

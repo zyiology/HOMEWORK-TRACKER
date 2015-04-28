@@ -1,16 +1,23 @@
 package com.goldenhand.bleakfalls.homeworktracker;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
 import com.goldenhand.bleakfalls.homeworktracker.dummy.DummyContent;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * A fragment representing a single Homework detail screen.
@@ -45,9 +52,6 @@ public class HomeworkDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             mHomework = HomeworkContent.HOMEWORK_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
 
@@ -61,26 +65,58 @@ public class HomeworkDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_homework_detail, container, false);
         // Show the dummy content as text in a TextView.
-        if (mHomework != null) {
-            //System.out.println("DISPLAYED!");
-            EditText nameEditText = (EditText) rootView.findViewById(R.id.homework_name);
-            nameEditText.setText(mHomework.getName());
-        }
-
         final EditText mNameEditText = (EditText) rootView.findViewById(R.id.homework_name);
+        final EditText mSubjNameEditText = (EditText) rootView.findViewById(R.id.homework_subj_name);
+        final Button mDueDateButton = (Button) rootView.findViewById(R.id.homework_due_date);
+        final Button mRemindDateButton = (Button) rootView.findViewById(R.id.homework_remind_date);
+
+        if (mHomework != null) {
+            mNameEditText.setText(mHomework.getName());
+            mSubjNameEditText.setText(mHomework.getSubjectName());
+
+            mDueDateButton.setText("Due Date: " + String.valueOf(mHomework.getDueDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.YEAR)));
+            mRemindDateButton.setText("Reminder Date: " + String.valueOf(mHomework.getRemindDate().get(Calendar.DAY_OF_MONTH)) + '/' +  String.valueOf(mHomework.getRemindDate().get(Calendar.MONTH)) + '/' + String.valueOf(mHomework.getRemindDate().get(Calendar.YEAR)));
+        }
 
         Button mSaveChangesButton = (Button) rootView.findViewById(R.id.save_changes);
         mSaveChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//TODO
                 for (int i=0;i<homeworkContent.mHomeworkList.size();i++) {
-                    if (homeworkContent.mHomeworkList.get(i).getId().equals(getArguments().getString(ARG_ITEM_ID))) {
+                    if (homeworkContent.mHomeworkList.get(i).getId().toString().equals(getArguments().getString(ARG_ITEM_ID))) {
                         homeworkContent.mHomeworkList.get(i).setName(mNameEditText.getText().toString());
+                        homeworkContent.mHomeworkList.get(i).setName(mSubjNameEditText.getText().toString());
                     }
                 }
             }
         });
 
+        final DatePickerDialog dueDatePickerDialog = new DatePickerDialog(getActivity(), DatePickerDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                GregorianCalendar newDate = new GregorianCalendar(year,monthOfYear,dayOfMonth);
+                for (int i=0;i<homeworkContent.mHomeworkList.size();i++) {
+                    if (homeworkContent.mHomeworkList.get(i).getId().toString().equals(getArguments().getString(ARG_ITEM_ID))) {
+                        homeworkContent.mHomeworkList.get(i).setDueDate(newDate);
+                    }
+                }
+                mDueDateButton.setText("Due Date: " + String.valueOf(mHomework.getDueDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.YEAR)));
+            }
+        },mHomework.getDueDate().get(Calendar.YEAR),mHomework.getDueDate().get(Calendar.MONTH),mHomework.getDueDate().get(Calendar.DAY_OF_MONTH));
+
+        mDueDateButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dueDatePickerDialog.show();
+            }
+        });
+
+        mRemindDateButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
+
         return rootView;
     }
+
 }
