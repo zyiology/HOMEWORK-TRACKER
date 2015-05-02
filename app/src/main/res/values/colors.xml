@@ -6,4 +6,8 @@
     <color name="blue">#263FA3</color>
     <color name="gold">#A38A26</color>
     <color name="purple">#6526A3</color>
+    <color name="gray">#9399AB</color>
+    <color name="translucent_red">#80FF0000</color>
+    <color name="translucent_green">#8022CC00</color>
+    <color name="translucent_yellow">#80EBDD17</color>
 </resources>

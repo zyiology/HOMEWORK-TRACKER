@@ -88,9 +88,9 @@ public class HomeworkDetailFragment extends Fragment {
             mNameEditText.setText(mHomework.getName());
             mSubjNameEditText.setText(mHomework.getSubjectName());
 
-            mDueDateButton.setText("Due Date: " + String.valueOf(dueDate.get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(dueDate.get(Calendar.MONTH)) + '/' + String.valueOf(dueDate.get(Calendar.YEAR)));
+            mDueDateButton.setText("Due Date: " + String.valueOf(dueDate.get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(dueDate.get(Calendar.MONTH) + 1) + '/' + String.valueOf(dueDate.get(Calendar.YEAR)));
             mDueTimeButton.setText("Due Time: " + fixTimeForDisplay(String.valueOf(dueDate.get(Calendar.HOUR_OF_DAY))) + ':' + fixTimeForDisplay(String.valueOf(dueDate.get(Calendar.MINUTE))));
-            mRemindDateButton.setText("Reminder Date: " + String.valueOf(remindDate.get(Calendar.DAY_OF_MONTH)) + '/' +  String.valueOf(remindDate.get(Calendar.MONTH)) + '/' + String.valueOf(remindDate.get(Calendar.YEAR)));
+            mRemindDateButton.setText("Reminder Date: " + String.valueOf(remindDate.get(Calendar.DAY_OF_MONTH)) + '/' +  String.valueOf(remindDate.get(Calendar.MONTH) + 1) + '/' + String.valueOf(remindDate.get(Calendar.YEAR)));
             mRemindTimeButton.setText("Remind Time: " + fixTimeForDisplay(String.valueOf(remindDate.get(Calendar.HOUR_OF_DAY))) + ':' + fixTimeForDisplay(String.valueOf(remindDate.get(Calendar.MINUTE))));
         }
 
@@ -150,10 +150,12 @@ public class HomeworkDetailFragment extends Fragment {
                 GregorianCalendar newDate = new GregorianCalendar(year,monthOfYear,dayOfMonth);
                 for (int i=0;i<homeworkContent.mHomeworkList.size();i++) {
                     if (homeworkContent.mHomeworkList.get(i).getId().toString().equals(getArguments().getString(ARG_ITEM_ID))) {
-                        homeworkContent.mHomeworkList.get(i).setDueDate(newDate);
+                        mHomework.setDueDate(newDate);
+                        homeworkContent.mHomeworkList.remove(i);
+                        homeworkContent.mHomeworkList.add(i,mHomework);
                     }
                 }
-                mDueDateButton.setText("Due Date: " + String.valueOf(mHomework.getDueDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.YEAR)));
+                mDueDateButton.setText("Due Date: " + String.valueOf(mHomework.getDueDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.MONTH)+1) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.YEAR)));
             }
         },mHomework.getDueDate().get(Calendar.YEAR),mHomework.getDueDate().get(Calendar.MONTH),mHomework.getDueDate().get(Calendar.DAY_OF_MONTH));
 
@@ -169,7 +171,9 @@ public class HomeworkDetailFragment extends Fragment {
                 GregorianCalendar newDate = new GregorianCalendar(mHomework.getDueDate().get(Calendar.YEAR), mHomework.getDueDate().get(Calendar.MONTH), mHomework.getDueDate().get(Calendar.DAY_OF_MONTH),hourOfDay,minute);
                 for (int i=0;i<homeworkContent.mHomeworkList.size();i++) {
                     if (homeworkContent.mHomeworkList.get(i).getId().toString().equals(getArguments().getString(ARG_ITEM_ID))) {
-                        homeworkContent.mHomeworkList.get(i).setDueDate(newDate);
+                        mHomework.setDueDate(newDate);
+                        homeworkContent.mHomeworkList.remove(i);
+                        homeworkContent.mHomeworkList.add(i, mHomework);
                         mDueTimeButton.setText("Due Time: " + fixTimeForDisplay(String.valueOf(mHomework.getDueDate().get(Calendar.HOUR_OF_DAY))) + ':' + fixTimeForDisplay(String.valueOf(mHomework.getDueDate().get(Calendar.MINUTE))));
                     }
                 }
@@ -189,10 +193,12 @@ public class HomeworkDetailFragment extends Fragment {
                 GregorianCalendar newDate = new GregorianCalendar(year,monthOfYear,dayOfMonth);
                 for (int i=0;i<homeworkContent.mHomeworkList.size();i++) {
                     if (homeworkContent.mHomeworkList.get(i).getId().toString().equals(getArguments().getString(ARG_ITEM_ID))) {
-                        homeworkContent.mHomeworkList.get(i).setRemindDate(newDate);
+                        mHomework.setRemindDate(newDate);
+                        homeworkContent.mHomeworkList.remove(i);
+                        homeworkContent.mHomeworkList.add(i, mHomework);
                     }
                 }
-                mRemindDateButton.setText("Remind Date: " + String.valueOf(mHomework.getRemindDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getRemindDate().get(Calendar.MONTH)) + '/' + String.valueOf(mHomework.getRemindDate().get(Calendar.YEAR)));
+                mRemindDateButton.setText("Remind Date: " + String.valueOf(mHomework.getRemindDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getRemindDate().get(Calendar.MONTH) + 1) + '/' + String.valueOf(mHomework.getRemindDate().get(Calendar.YEAR)));
             }
         },mHomework.getRemindDate().get(Calendar.YEAR),mHomework.getRemindDate().get(Calendar.MONTH),mHomework.getRemindDate().get(Calendar.DAY_OF_MONTH));
 
@@ -207,7 +213,9 @@ public class HomeworkDetailFragment extends Fragment {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 GregorianCalendar newDate = new GregorianCalendar(mHomework.getRemindDate().get(Calendar.YEAR), mHomework.getRemindDate().get(Calendar.MONTH), mHomework.getRemindDate().get(Calendar.DAY_OF_MONTH),hourOfDay,minute);                for (int i=0;i<homeworkContent.mHomeworkList.size();i++) {
                     if (homeworkContent.mHomeworkList.get(i).getId().toString().equals(getArguments().getString(ARG_ITEM_ID))) {
-                        homeworkContent.mHomeworkList.get(i).setRemindDate(newDate);
+                        mHomework.setRemindDate(newDate);
+                        homeworkContent.mHomeworkList.remove(i);
+                        homeworkContent.mHomeworkList.add(i,mHomework);
                         mRemindTimeButton.setText("Remind Time: " + fixTimeForDisplay(String.valueOf(mHomework.getRemindDate().get(Calendar.HOUR_OF_DAY))) + ':' + fixTimeForDisplay(String.valueOf(mHomework.getRemindDate().get(Calendar.MINUTE))));
                     }
                 }

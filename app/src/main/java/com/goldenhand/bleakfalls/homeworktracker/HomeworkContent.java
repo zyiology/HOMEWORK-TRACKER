@@ -24,10 +24,10 @@ public class HomeworkContent implements Serializable {
     public static Map<String, Homework> HOMEWORK_MAP = new HashMap<String, Homework>();
     public static int mCurrentID = 0;
 
-    static {
+    /*static {
         addItem(new Homework("Assignment 1","Math",new GregorianCalendar(2015,4,4),new GregorianCalendar(2015,4,4),false,false,mCurrentID));
         addItem(new Homework("Practice Quiz","Physics",new GregorianCalendar(2015,4,5), new GregorianCalendar(2015,8,2),false,false,mCurrentID));
-    }
+    }*/
 
     public static void addItem(Homework homework) {
         mHomeworkList.add(homework);

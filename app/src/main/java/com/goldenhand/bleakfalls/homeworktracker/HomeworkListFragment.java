@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -93,13 +94,17 @@ public class HomeworkListFragment extends ListFragment {
 
         //TODO: onSavedInstanceState and getIntent
         //HomeworkContent.sortItems();
+        if (HomeworkContent.mHomeworkList.size() == 0) {
+            HomeworkContent.addItem(new HomeworkContent.Homework("Assignment 1","Math",new GregorianCalendar(2015,4,4),new GregorianCalendar(2015,4,4),false,false,HomeworkContent.mCurrentID));
+            HomeworkContent.addItem(new HomeworkContent.Homework("Practice Quiz","Physics",new GregorianCalendar(2015,4,5), new GregorianCalendar(2015,8,2),false,false,HomeworkContent.mCurrentID));
+        }
         mHomeworkAdapter = new HomeworkAdapter(getActivity(), R.layout.activity_homework_item, HomeworkContent.mHomeworkList);
         setListAdapter(mHomeworkAdapter);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("setNotification");
         reminderReceiver = new ReminderReceiver();
-        getActivity().registerReceiver(reminderReceiver,filter);
+        getActivity().registerReceiver(reminderReceiver, filter);
         /*setListAdapter(new ArrayAdapter<HomeworkList.HomeworkItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
@@ -196,8 +201,6 @@ public class HomeworkListFragment extends ListFragment {
             super(context, resource, homeworks);
             mContext = context;
             mHomeworks = homeworks;
-            System.out.println(homeworks.get(0).getName());
-            System.out.println(homeworks.get(1).getName());
         }
 
 
@@ -212,6 +215,7 @@ public class HomeworkListFragment extends ListFragment {
                 holder.detailsTextView = (TextView) row.findViewById(R.id.details);
                 holder.doneIconImageView = (ImageView) row.findViewById(R.id.doneIcon);
                 holder.remindIconImageView = (ImageView) row.findViewById(R.id.remindIcon);
+                holder.backgroundRelativeLayout = (RelativeLayout) row.findViewById(R.id.list_item);
                 row.setTag(holder);
             }
             else {
@@ -219,13 +223,24 @@ public class HomeworkListFragment extends ListFragment {
             }
 
             final HomeworkContent.Homework currentHomework = mHomeworks.get(position);
+
             holder.titleTextView.setText(currentHomework.getName());
-            //holder.detailsTextView.setText(currentHomework.getSubjectName()) + currentHomework.getDueDate()
-            //add more holder stuff TODO
+            holder.detailsTextView.setText(currentHomework.getSubjectName());
+
+            Calendar UTCDueTime = new GregorianCalendar(TimeZone.getTimeZone("UTC"));//CONVERT TIME TO UTC SO IT MATCHES INTERNAL CLOCK
+            Date localDueTime = currentHomework.getRemindDate().getTime();
+            UTCDueTime.setTime(localDueTime);
             if (currentHomework.isDone()) {
                 holder.doneIconImageView.setImageResource(R.drawable.checkboxfilled);
             } else {
                 holder.doneIconImageView.setImageResource(R.drawable.checkboxempty);
+                if (UTCDueTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() > 604800000) {
+                    holder.backgroundRelativeLayout.setBackgroundColor(getResources().getColor(R.color.translucent_green));
+                } else if (UTCDueTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() > 259200000) {
+                    holder.backgroundRelativeLayout.setBackgroundColor(getResources().getColor(R.color.translucent_yellow));
+                } else {
+                    holder.backgroundRelativeLayout.setBackgroundColor(getResources().getColor(R.color.translucent_red));
+                }
             }
             holder.doneIconImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -297,6 +312,7 @@ public class HomeworkListFragment extends ListFragment {
             TextView detailsTextView;
             ImageView doneIconImageView;
             ImageView remindIconImageView;
+            RelativeLayout backgroundRelativeLayout;
         }
     }
 

@@ -101,6 +101,7 @@ public class HomeworkListActivity extends FragmentActivity
                     builder.append((char) ch);
                 }
                 String output = builder.toString();
+                System.out.println(output);
 
                 int counter = 0;//counts the number of line separators reached
                 String tempString = "";
@@ -149,6 +150,12 @@ public class HomeworkListActivity extends FragmentActivity
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         String filename = "homework_list";
@@ -162,6 +169,7 @@ public class HomeworkListActivity extends FragmentActivity
                 Date remindDate = tempHw.getRemindDate().getTime();
                 SimpleDateFormat remindDateFormat = new SimpleDateFormat("MMM dd yyyy HH mm ss");
                 fos.write(tempHw.getName().getBytes());fos.write(System.getProperty("line.separator").getBytes());
+                System.out.println(tempHw.getName());
                 fos.write(tempHw.getSubjectName().getBytes());fos.write(System.getProperty("line.separator").getBytes());
                 fos.write(dueDateFormat.format(dueDate).getBytes());fos.write(System.getProperty("line.separator").getBytes());
                 fos.write(remindDateFormat.format(remindDate).getBytes());fos.write(System.getProperty("line.separator").getBytes());
