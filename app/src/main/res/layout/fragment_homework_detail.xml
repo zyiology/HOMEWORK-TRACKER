@@ -2,20 +2,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@drawable/background">
 
-    <Button
-        android:id="@+id/save_changes"
+    <LinearLayout
+        android:id="@+id/button_row"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save_changes" />
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/save_changes"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/save_changes"
+            android:textColor="@color/white"
+            android:background="@color/green"/>
+
+        <Button
+            android:id="@+id/export_homework"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/export_homework"
+            android:textColor="@color/white"
+            android:background="@color/red" />
+
+    </LinearLayout>
     <EditText
         android:id="@+id/homework_name"
         style="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/save_changes"
+        android:layout_below="@id/button_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".HomeworkDetailFragment" /><!--android:textIsSelectable="true"-->
+        tools:context=".HomeworkDetailFragment"
+        android:textColor="@color/white" /><!--android:textIsSelectable="true"-->
 
     <EditText
         android:id="@+id/homework_subj_name"
@@ -23,24 +44,51 @@
         android:layout_below="@id/homework_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".HomeworkDetailFragment" />
+        tools:context=".HomeworkDetailFragment"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/homework_due_date"
         style="?android:attr/textAppearanceLarge"
         android:layout_below="@id/homework_subj_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:context=".HomeworkDetailFragment" />
+        tools:context=".HomeworkDetailFragment"
+        android:background="@color/blue"
+        android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/homework_due_time"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_below="@id/homework_due_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".HomeworkDetailFragment"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@color/gold"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/homework_remind_date"
         style="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/homework_due_date"
-        android:layout_width="match_parent"
+        android:layout_below="@id/homework_due_time"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        tools:context=".HomeworkDetailFragment" />
+        tools:context=".HomeworkDetailFragment"
+        android:background="@color/blue"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/homework_remind_time"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_below="@id/homework_remind_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".HomeworkDetailFragment"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/gold"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

@@ -3,7 +3,7 @@
     android:layout_height="match_parent" android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp" android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal" android:orientation="horizontal"
-    android:showDividers="middle" tools:context=".HomeworkListActivity">
+    android:showDividers="middle" tools:context=".HomeworkListActivity" android:background="@drawable/background">
 
     <!--
     This layout is a two-pane layout for the Homeworks
@@ -11,7 +11,16 @@
     
     -->
 
+    <Button
+        android:id="@+id/add_homework"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_homework"
+        android:background="@color/purple"
+        android:textColor="@color/white" />
+
     <fragment android:id="@+id/homework_list"
+        android:tag="homework_list"
         android:name="com.goldenhand.bleakfalls.homeworktracker.HomeworkListFragment"
         android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
         tools:layout="@android:layout/list_content" />

@@ -2,17 +2,21 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical" android:background="@drawable/background">
+
     <Button
         android:id="@+id/add_homework"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_homework" />
+        android:text="@string/add_homework"
+        android:layout_gravity="center"
+        android:background="@color/purple"
+        android:textColor="@color/white" />
     <fragment
-         android:id="@+id/homework_list"
+        android:id="@+id/homework_list"
+        android:tag="homework_list"
         android:name="com.goldenhand.bleakfalls.homeworktracker.HomeworkListFragment"
         android:layout_width="match_parent" android:layout_height="match_parent"
         android:layout_marginLeft="16dp" android:layout_marginRight="16dp"
         tools:context=".HomeworkListActivity" tools:layout="@android:layout/list_content" />
 </LinearLayout>
-

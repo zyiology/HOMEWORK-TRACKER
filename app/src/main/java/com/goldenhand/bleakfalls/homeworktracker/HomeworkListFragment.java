@@ -1,7 +1,11 @@
 package com.goldenhand.bleakfalls.homeworktracker;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -12,7 +16,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 
 /**
@@ -74,18 +84,33 @@ public class HomeworkListFragment extends ListFragment {
     public HomeworkListFragment() {
     }
 
+    public static HomeworkAdapter mHomeworkAdapter;
+    private static ReminderReceiver reminderReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //TODO: onSavedInstanceState and getIntent
-        setListAdapter(new HomeworkAdapter(getActivity(), R.layout.activity_homework_item, HomeworkListActivity.homeworkContent.mHomeworkList));
+        //HomeworkContent.sortItems();
+        mHomeworkAdapter = new HomeworkAdapter(getActivity(), R.layout.activity_homework_item, HomeworkContent.mHomeworkList);
+        setListAdapter(mHomeworkAdapter);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("setNotification");
+        reminderReceiver = new ReminderReceiver();
+        getActivity().registerReceiver(reminderReceiver,filter);
         /*setListAdapter(new ArrayAdapter<HomeworkList.HomeworkItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 HomeworkList.homeworkItemList));*/
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(reminderReceiver);
     }
 
     @Override
@@ -165,13 +190,16 @@ public class HomeworkListFragment extends ListFragment {
 
     private class HomeworkAdapter extends ArrayAdapter<HomeworkContent.Homework> {
         Context mContext;
-        private ArrayList<HomeworkContent.Homework> mHomeworks;
+        private ArrayList<HomeworkContent.Homework> mHomeworks = new ArrayList<>();
 
         public HomeworkAdapter(Context context, int resource, ArrayList<HomeworkContent.Homework> homeworks) {
             super(context, resource, homeworks);
             mContext = context;
             mHomeworks = homeworks;
+            System.out.println(homeworks.get(0).getName());
+            System.out.println(homeworks.get(1).getName());
         }
+
 
         public View getView(int position, View convertView, ViewGroup parent) {
             View row = convertView;
@@ -183,20 +211,72 @@ public class HomeworkListFragment extends ListFragment {
                 holder.titleTextView = (TextView) row.findViewById(R.id.title);
                 holder.detailsTextView = (TextView) row.findViewById(R.id.details);
                 holder.doneIconImageView = (ImageView) row.findViewById(R.id.doneIcon);
+                holder.remindIconImageView = (ImageView) row.findViewById(R.id.remindIcon);
                 row.setTag(holder);
             }
             else {
                 holder = (ViewHolder) row.getTag();
             }
 
-            HomeworkContent.Homework currentHomework = mHomeworks.get(position);
+            final HomeworkContent.Homework currentHomework = mHomeworks.get(position);
             holder.titleTextView.setText(currentHomework.getName());
             //holder.detailsTextView.setText(currentHomework.getSubjectName()) + currentHomework.getDueDate()
             //add more holder stuff TODO
             if (currentHomework.isDone()) {
-                //holder.doneIconImageView.
-                //set image TODO
+                holder.doneIconImageView.setImageResource(R.drawable.checkboxfilled);
+            } else {
+                holder.doneIconImageView.setImageResource(R.drawable.checkboxempty);
             }
+            holder.doneIconImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentHomework.isDone()) {
+                        currentHomework.setDone(false);
+                    } else {
+                        currentHomework.setDone(true);
+                    }
+                    HomeworkContent.sortItems();
+                    clear();
+                    addAll(HomeworkContent.mHomeworkList);
+                    notifyDataSetChanged();
+                }
+            });
+
+            if (currentHomework.isRemind()) {
+                holder.remindIconImageView.setImageResource(R.drawable.clock);
+            } else {
+                holder.remindIconImageView.setImageResource(R.drawable.noclock);
+            }
+            holder.remindIconImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentHomework.isRemind()) {
+                        currentHomework.setRemind(false);
+                    } else {
+                        currentHomework.setRemind(true);
+                        for (int i = 0; i < HomeworkContent.mHomeworkList.size(); i++) {
+                            if (HomeworkContent.mHomeworkList.get(i).isRemind()) {
+                                //Intent alarmIntent = new Intent(getActivity(), ReminderReceiver.class);
+                                Intent alarmIntent = new Intent("setNotification");
+                                PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+                                Calendar tempAlarmTime = new GregorianCalendar(TimeZone.getTimeZone("UTC"));//CONVERT TIME TO UTC SO IT MATCHES INTERNAL CLOCK
+                                Date localTimeZoneAlarm = currentHomework.getRemindDate().getTime();
+                                tempAlarmTime.setTime(localTimeZoneAlarm);
+
+                                alarmManager.set(AlarmManager.RTC_WAKEUP, tempAlarmTime.getTimeInMillis(), pendingIntent);
+
+                                System.out.println(tempAlarmTime.getTimeInMillis());//SGT TIME
+                                System.out.println(System.currentTimeMillis());//UTC TIME
+                                //System.out.println("SUCCESSFUL NOTIFICATIONS");
+                            }
+                        }
+                    }
+                    notifyDataSetChanged();
+                }
+            });
+
             //else {
             /*
             TextView textView = (TextView) row.findViewById(R.id.text);
@@ -216,6 +296,11 @@ public class HomeworkListFragment extends ListFragment {
             TextView titleTextView;
             TextView detailsTextView;
             ImageView doneIconImageView;
+            ImageView remindIconImageView;
         }
+    }
+
+    public static void refreshFragment() {
+        mHomeworkAdapter.notifyDataSetChanged();
     }
 }

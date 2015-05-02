@@ -5,5 +5,6 @@
     <string name="title_homework_detail">Homework Detail</string>
     <string name="save_changes">Save Changes</string>
     <string name="add_homework">Add Homework</string>
-
+    <string name="export_homework">Export Homework</string>
+    <string name="help">\?;</string>
 </resources>

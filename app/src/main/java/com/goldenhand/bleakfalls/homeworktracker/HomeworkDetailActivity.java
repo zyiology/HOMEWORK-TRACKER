@@ -31,7 +31,7 @@ public class HomeworkDetailActivity extends ActionBarActivity {
         final HomeworkContent homeworkContent = (HomeworkContent) getIntent().getExtras().get(HomeworkListActivity.HOMEWORK_CONTENT);
 
         // Show the Up button in the action bar.
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
