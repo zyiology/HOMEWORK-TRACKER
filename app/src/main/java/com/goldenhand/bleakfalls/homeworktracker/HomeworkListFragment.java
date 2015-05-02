@@ -94,17 +94,10 @@ public class HomeworkListFragment extends ListFragment {
 
         //TODO: onSavedInstanceState and getIntent
         //HomeworkContent.sortItems();
-        if (HomeworkContent.mHomeworkList.size() == 0) {
-            HomeworkContent.addItem(new HomeworkContent.Homework("Assignment 1","Math",new GregorianCalendar(2015,4,4),new GregorianCalendar(2015,4,4),false,false,HomeworkContent.mCurrentID));
-            HomeworkContent.addItem(new HomeworkContent.Homework("Practice Quiz","Physics",new GregorianCalendar(2015,4,5), new GregorianCalendar(2015,8,2),false,false,HomeworkContent.mCurrentID));
-        }
         mHomeworkAdapter = new HomeworkAdapter(getActivity(), R.layout.activity_homework_item, HomeworkContent.mHomeworkList);
         setListAdapter(mHomeworkAdapter);
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("setNotification");
-        reminderReceiver = new ReminderReceiver();
-        getActivity().registerReceiver(reminderReceiver, filter);
+
         /*setListAdapter(new ArrayAdapter<HomeworkList.HomeworkItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
@@ -112,11 +105,6 @@ public class HomeworkListFragment extends ListFragment {
                 HomeworkList.homeworkItemList));*/
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(reminderReceiver);
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

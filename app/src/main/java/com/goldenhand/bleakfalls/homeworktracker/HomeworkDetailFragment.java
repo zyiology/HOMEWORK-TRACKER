@@ -49,6 +49,8 @@ public class HomeworkDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "id";
 
+    public static final String REFRESH_ADAPTER = "refresh_homework_adapter";
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -156,6 +158,7 @@ public class HomeworkDetailFragment extends Fragment {
                     }
                 }
                 mDueDateButton.setText("Due Date: " + String.valueOf(mHomework.getDueDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.MONTH)+1) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.YEAR)));
+
             }
         },mHomework.getDueDate().get(Calendar.YEAR),mHomework.getDueDate().get(Calendar.MONTH),mHomework.getDueDate().get(Calendar.DAY_OF_MONTH));
 

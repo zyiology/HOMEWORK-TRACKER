@@ -27,4 +27,8 @@
     </application>
 
 
+    <intent-filter>
+        <action android:name="setNotification" />
+    </intent-filter>
+
 </manifest>

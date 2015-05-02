@@ -90,74 +90,78 @@ public class HomeworkListActivity extends FragmentActivity
             }
         });
 
-        if (HomeworkContent.mHomeworkList == new ArrayList<HomeworkContent.Homework>()) {
+        HomeworkContent.mHomeworkList.clear();
 
-            try {
-                //creating string from input
-                FileInputStream iS = openFileInput("homework_list");
-                StringBuilder builder = new StringBuilder();
-                int ch;
-                while ((ch = iS.read()) != -1) {
-                    builder.append((char) ch);
+        try {
+            //creating string from input
+            FileInputStream iS = openFileInput("homework_list");
+            StringBuilder builder = new StringBuilder();
+            int ch;
+            while ((ch = iS.read()) != -1) {
+                builder.append((char) ch);
+            }
+            String output = builder.toString();
+            System.out.println(output);
+
+            int counter = 0;//counts the number of line separators reached
+            String tempString = "";
+            String[] tempHwData = new String[7];
+            for (int i = 0; i < output.length(); i++) {
+                char temp = output.charAt(i);
+                if (temp == System.getProperty("line.separator").charAt(0)) {
+                    tempHwData[counter] = tempString;
+                    counter += 1;
+                    tempString = "";
+                } else {
+                    tempString += temp;
                 }
-                String output = builder.toString();
-                System.out.println(output);
-
-                int counter = 0;//counts the number of line separators reached
-                String tempString = "";
-                String[] tempHwData = new String[7];
-                for (int i = 0; i < output.length(); i++) {
-                    char temp = output.charAt(i);
-                    if (temp == System.getProperty("line.separator").charAt(0)) {
-                        tempHwData[counter] = tempString;
-                        counter += 1;
-                        tempString = "";
+                boolean done;
+                boolean remind;
+                if (counter == 7) {
+                    SimpleDateFormat dueDateFormat = new SimpleDateFormat("MMM dd yyyy HH mm ss");
+                    GregorianCalendar dueDate = new GregorianCalendar();
+                    dueDate.setTime(dueDateFormat.parse(tempHwData[2]));
+                    SimpleDateFormat remindDateFormat = new SimpleDateFormat("MMM dd yyyy HH mm ss");
+                    GregorianCalendar remindDate = new GregorianCalendar();
+                    remindDate.setTime(remindDateFormat.parse(tempHwData[3]));
+                    if (tempHwData[4].equals("true")) {
+                        done = true;
                     } else {
-                        tempString += temp;
+                        done = false;
                     }
-                    boolean done;
-                    boolean remind;
-                    if (counter == 7) {
-                        SimpleDateFormat dueDateFormat = new SimpleDateFormat("MMM dd yyyy HH mm ss");
-                        GregorianCalendar dueDate = new GregorianCalendar();
-                        dueDate.setTime(dueDateFormat.parse(tempHwData[2]));
-                        SimpleDateFormat remindDateFormat = new SimpleDateFormat("MMM dd yyyy HH mm ss");
-                        GregorianCalendar remindDate = new GregorianCalendar();
-                        remindDate.setTime(remindDateFormat.parse(tempHwData[3]));
-                        if (tempHwData[4].equals("true")) {
-                            done = true;
-                        } else {
-                            done = false;
-                        }
-                        if (tempHwData[5].equals("true")) {
-                            remind = true;
-                        } else {
-                            remind = false;
-                        }
-                        HomeworkContent.addItem(new HomeworkContent.Homework(tempHwData[0], tempHwData[1], dueDate, remindDate, done, remind, Integer.parseInt(tempHwData[6])));
-                        HomeworkContent.mCurrentID = Integer.parseInt(tempHwData[6]);
-                        counter = 0;
+                    if (tempHwData[5].equals("true")) {
+                        remind = true;
+                    } else {
+                        remind = false;
                     }
+                    HomeworkContent.addItem(new HomeworkContent.Homework(tempHwData[0], tempHwData[1], dueDate, remindDate, done, remind, Integer.parseInt(tempHwData[6])));
+                    HomeworkContent.mCurrentID = Integer.parseInt(tempHwData[6]);
+                    counter = 0;
                 }
+            }
                 //System.out.println("constructing");
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+        if (HomeworkContent.mHomeworkList.size() == 0) {
+            HomeworkContent.addItem(new HomeworkContent.Homework("Assignment 1","Math",new GregorianCalendar(2015,4,4),new GregorianCalendar(2015,4,4),false,false,HomeworkContent.mCurrentID));
+            HomeworkContent.addItem(new HomeworkContent.Homework("Practice Quiz","Physics",new GregorianCalendar(2015,4,5), new GregorianCalendar(2015,8,2),false,false,HomeworkContent.mCurrentID));
         }
 
         //TODO:ADD EXTENSION TOO MUCH HW SEE COUNSELLOR
         //TODO: If exposing deep links into your app, handle intents here.
     }
 
-    @Override
+    /*@Override
     protected void onStop() {
         super.onStop();
         finish();
-    }
+    }*/
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
         String filename = "homework_list";
         System.out.println("DESTROYING ACTIVITY");
         try {
@@ -194,7 +198,7 @@ public class HomeworkListActivity extends FragmentActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        HomeworkContent.mHomeworkList = new ArrayList<HomeworkContent.Homework>();
+        HomeworkContent.mHomeworkList.clear();
     }
 
     /**
