@@ -198,7 +198,6 @@ public class HomeworkListActivity extends FragmentActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        HomeworkContent.mHomeworkList.clear();
     }
 
     /**

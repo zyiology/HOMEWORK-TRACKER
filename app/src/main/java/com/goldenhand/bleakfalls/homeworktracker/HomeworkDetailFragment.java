@@ -158,7 +158,6 @@ public class HomeworkDetailFragment extends Fragment {
                     }
                 }
                 mDueDateButton.setText("Due Date: " + String.valueOf(mHomework.getDueDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.MONTH)+1) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.YEAR)));
-
             }
         },mHomework.getDueDate().get(Calendar.YEAR),mHomework.getDueDate().get(Calendar.MONTH),mHomework.getDueDate().get(Calendar.DAY_OF_MONTH));
 
