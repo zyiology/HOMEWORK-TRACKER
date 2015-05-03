@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -248,36 +249,25 @@ public class HomeworkListFragment extends ListFragment {
                 }
             });
 
-            if (currentHomework.isRemind()) {
-                holder.remindIconImageView.setImageResource(R.drawable.clock);
-            } else {
-                holder.remindIconImageView.setImageResource(R.drawable.noclock);
-            }
+            holder.remindIconImageView.setImageResource(R.drawable.clock);
+
             holder.remindIconImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentHomework.isRemind()) {
-                        currentHomework.setRemind(false);
-                    } else {
-                        currentHomework.setRemind(true);
-                        for (int i = 0; i < HomeworkContent.mHomeworkList.size(); i++) {
-                            if (HomeworkContent.mHomeworkList.get(i).isRemind()) {
-                                //Intent alarmIntent = new Intent(getActivity(), ReminderReceiver.class);
-                                Intent alarmIntent = new Intent("setNotification");
-                                PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                                AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                    currentHomework.setRemind(true);
+                    Intent alarmIntent = new Intent("setNotification");
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
-                                Calendar tempAlarmTime = new GregorianCalendar(TimeZone.getTimeZone("UTC"));//CONVERT TIME TO UTC SO IT MATCHES INTERNAL CLOCK
-                                Date localTimeZoneAlarm = currentHomework.getRemindDate().getTime();
-                                tempAlarmTime.setTime(localTimeZoneAlarm);
+                    Calendar tempAlarmTime = new GregorianCalendar(TimeZone.getTimeZone("UTC"));//CONVERT TIME TO UTC SO IT MATCHES INTERNAL CLOCK
+                    Date localTimeZoneAlarm = currentHomework.getRemindDate().getTime();
+                    tempAlarmTime.setTime(localTimeZoneAlarm);
 
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, tempAlarmTime.getTimeInMillis(), pendingIntent);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, tempAlarmTime.getTimeInMillis(), pendingIntent);
+                    Toast.makeText(getActivity(), "NOTIFICATION CREATED", Toast.LENGTH_SHORT).show();
 
-                                System.out.println(tempAlarmTime.getTimeInMillis());
-                                System.out.println(System.currentTimeMillis());
-                            }
-                        }
-                    }
+                    System.out.println(tempAlarmTime.getTimeInMillis());
+                    System.out.println(System.currentTimeMillis());
                     notifyDataSetChanged();
                 }
             });
