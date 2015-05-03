@@ -2,7 +2,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:background="@drawable/background">
+    android:orientation="vertical" ><!--android:background="@drawable/background"-->
 
     <Button
         android:id="@+id/add_homework"

@@ -134,7 +134,6 @@ public class HomeworkDetailFragment extends Fragment {
                         break;
                     }
                 }
-                System.out.println("FOUNDINGS");
 
                 if (found) {
                     bt.setClassName(packageName, className);
@@ -154,10 +153,12 @@ public class HomeworkDetailFragment extends Fragment {
                     if (homeworkContent.mHomeworkList.get(i).getId().toString().equals(getArguments().getString(ARG_ITEM_ID))) {
                         mHomework.setDueDate(newDate);
                         homeworkContent.mHomeworkList.remove(i);
-                        homeworkContent.mHomeworkList.add(i,mHomework);
+                        homeworkContent.mHomeworkList.add(i, mHomework);
+                        mDueDateButton.setText("Due Date: " + String.valueOf(mHomework.getDueDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.MONTH) + 1) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.YEAR)));
+                        HomeworkListFragment.refreshFragment();
+
                     }
                 }
-                mDueDateButton.setText("Due Date: " + String.valueOf(mHomework.getDueDate().get(Calendar.DAY_OF_MONTH)) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.MONTH)+1) + '/' + String.valueOf(mHomework.getDueDate().get(Calendar.YEAR)));
             }
         },mHomework.getDueDate().get(Calendar.YEAR),mHomework.getDueDate().get(Calendar.MONTH),mHomework.getDueDate().get(Calendar.DAY_OF_MONTH));
 
@@ -177,6 +178,7 @@ public class HomeworkDetailFragment extends Fragment {
                         homeworkContent.mHomeworkList.remove(i);
                         homeworkContent.mHomeworkList.add(i, mHomework);
                         mDueTimeButton.setText("Due Time: " + fixTimeForDisplay(String.valueOf(mHomework.getDueDate().get(Calendar.HOUR_OF_DAY))) + ':' + fixTimeForDisplay(String.valueOf(mHomework.getDueDate().get(Calendar.MINUTE))));
+                        HomeworkListFragment.refreshFragment();
                     }
                 }
             }

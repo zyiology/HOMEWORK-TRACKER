@@ -216,17 +216,20 @@ public class HomeworkListFragment extends ListFragment {
             holder.detailsTextView.setText(currentHomework.getSubjectName());
 
             Calendar UTCDueTime = new GregorianCalendar(TimeZone.getTimeZone("UTC"));//CONVERT TIME TO UTC SO IT MATCHES INTERNAL CLOCK
-            Date localDueTime = currentHomework.getRemindDate().getTime();
+            Date localDueTime = currentHomework.getDueDate().getTime();
             UTCDueTime.setTime(localDueTime);
-            if (currentHomework.isDone()) {
+            if (currentHomework.isDone()) {//done = no colour
                 holder.doneIconImageView.setImageResource(R.drawable.checkboxfilled);
             } else {
                 holder.doneIconImageView.setImageResource(R.drawable.checkboxempty);
-                if (UTCDueTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() > 604800000) {
+                System.out.println("SETTING COLOURS");
+                System.out.println(UTCDueTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis());
+                System.out.println(UTCDueTime.get(Calendar.YEAR));
+                if (UTCDueTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() > 604800000) {//1 week = green
                     holder.backgroundRelativeLayout.setBackgroundColor(getResources().getColor(R.color.translucent_green));
-                } else if (UTCDueTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() > 259200000) {
+                } else if (UTCDueTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() > 259200000) {//3 days = yellow
                     holder.backgroundRelativeLayout.setBackgroundColor(getResources().getColor(R.color.translucent_yellow));
-                } else {
+                } else {//less than 3 days = red
                     holder.backgroundRelativeLayout.setBackgroundColor(getResources().getColor(R.color.translucent_red));
                 }
             }
@@ -270,9 +273,8 @@ public class HomeworkListFragment extends ListFragment {
 
                                 alarmManager.set(AlarmManager.RTC_WAKEUP, tempAlarmTime.getTimeInMillis(), pendingIntent);
 
-                                System.out.println(tempAlarmTime.getTimeInMillis());//SGT TIME
-                                System.out.println(System.currentTimeMillis());//UTC TIME
-                                //System.out.println("SUCCESSFUL NOTIFICATIONS");
+                                System.out.println(tempAlarmTime.getTimeInMillis());
+                                System.out.println(System.currentTimeMillis());
                             }
                         }
                     }
@@ -303,6 +305,12 @@ public class HomeworkListFragment extends ListFragment {
             RelativeLayout backgroundRelativeLayout;
         }
     }
+
+    /*public static void refreshFragmentForDueDate(int index, HomeworkContent.Homework newHomework) {
+        mHomeworkAdapter.remove(mHomeworkAdapter.getItem(index));
+        mHomeworkAdapter.insert(newHomework,index);
+        mHomeworkAdapter.notifyDataSetChanged();
+    }*/
 
     public static void refreshFragment() {
         mHomeworkAdapter.notifyDataSetChanged();

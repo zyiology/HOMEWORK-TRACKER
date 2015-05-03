@@ -56,6 +56,7 @@ public class HomeworkListActivity extends FragmentActivity
     public boolean mTwoPane;
     public static HomeworkContent homeworkContent = new HomeworkContent();
     public static String HOMEWORK_CONTENT = "com.goldenhand.bleakfalls.homeworktracker.homeworklistactivity.homeworkcontent";
+    public static String REFRESH_FRAGMENT = "com.goldenhand.bleakfalls.homeworktracker.homeworklistfragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +140,18 @@ public class HomeworkListActivity extends FragmentActivity
                     counter = 0;
                 }
             }
+            tempString = "";
+            for (int i=output.length()-1;i > 0; i--) {
+                if (output.charAt(i) == System.getProperty("line.separator").charAt(0)) {
+                    HomeworkContent.mCurrentID = Integer.valueOf(tempString);
+                    System.out.println("CURRENT ID: ");
+                    System.out.println(HomeworkContent.mCurrentID);
+                    break;
+                }
+                else {
+                    tempString = output.charAt(i) + tempString;
+                }
+            }
                 //System.out.println("constructing");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -193,6 +206,9 @@ public class HomeworkListActivity extends FragmentActivity
                 fos.write(System.getProperty("line.separator").getBytes());
                 fos.write(tempHw.getId().toString().getBytes());fos.write(System.getProperty("line.separator").getBytes());
             }
+            fos.write(System.getProperty("line.separator").getBytes());
+            Integer currentId = HomeworkContent.mCurrentID;
+            fos.write(currentId.toString().getBytes());
             fos.close();
             System.out.println("OUTPUTTING DATA");
         } catch (Exception e) {
