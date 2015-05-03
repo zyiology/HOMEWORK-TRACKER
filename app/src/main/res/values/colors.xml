@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#ffffff</color>
-    <color name="green">#00C961</color>
-    <color name="red">#C90068</color>
-    <color name="blue">#263FA3</color>
-    <color name="gold">#A38A26</color>
+    <color name="green">#8000C961</color>
+    <color name="red">#80C90068</color>
+    <color name="blue">#80263FA3</color>
+    <color name="gold">#80A38A26</color>
     <color name="purple">#6526A3</color>
     <color name="gray">#9399AB</color>
     <color name="translucent_red">#80FF0000</color>
