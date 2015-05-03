@@ -16,9 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <intent-filter>
-                <action android:name="setNotification" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".HomeworkDetailActivity"
@@ -28,6 +25,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeworkListActivity" />
         </activity>
+
+        <receiver
+            android:name="com.goldenhand.bleakfalls.homeworktracker.ReminderReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.goldenhand.bleakfalls.homeworktracker.ReminderReceiver.SET_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
     </application>
+
+
+
 
 </manifest>

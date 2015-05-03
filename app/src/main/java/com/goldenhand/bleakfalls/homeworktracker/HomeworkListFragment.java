@@ -87,7 +87,7 @@ public class HomeworkListFragment extends ListFragment {
     }
 
     public static HomeworkAdapter mHomeworkAdapter;
-    private static ReminderReceiver reminderReceiver;
+    //private static ReminderReceiver reminderReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -255,7 +255,10 @@ public class HomeworkListFragment extends ListFragment {
                 @Override
                 public void onClick(View v) {
                     currentHomework.setRemind(true);
-                    Intent alarmIntent = new Intent("setNotification");
+                    Intent alarmIntent = new Intent("SET_NOTIFICATION");
+                    alarmIntent.setAction("com.goldenhand.bleakfalls.homeworktracker.ReminderReceiver.SET_NOTIFICATION");
+                    alarmIntent.putExtra(ReminderReceiver.HW_NAME, currentHomework.getName());
+                    alarmIntent.putExtra(ReminderReceiver.HW_SUBJ_NAME, currentHomework.getSubjectName());
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 

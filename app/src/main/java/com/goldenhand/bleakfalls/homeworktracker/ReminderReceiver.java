@@ -16,13 +16,15 @@ import android.support.v4.app.NotificationCompat;
 
 public class ReminderReceiver extends BroadcastReceiver {
 
-    //public static String NOTIFICATION_MANAGER = "com.goldenhand.bleakfalls.homeworktracker.reminderreceiver.notificationmanager";
+    public static String HW_NAME = "NAME_OF_HOMEWORK_TO_DISPLAY_IN_NOTIFICATION";
+    public static String HW_SUBJ_NAME = "SUBJECT_NAME_OF_HOMEWORK_TO_DISPLAY_IN_NOTIFICATION";
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle("HOMEWORK ALERT!")
-                .setContentText("HW DUE SOONS")
+                .setContentTitle("REMINDER TO DO HOMEWORK!")
+                .setContentText(intent.getStringExtra(HW_NAME) + " - " + intent.getStringExtra(HW_SUBJ_NAME))
                 .setSmallIcon(R.drawable.clock);
         Intent notifyIntent = new Intent(context,HomeworkListActivity.class);
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
