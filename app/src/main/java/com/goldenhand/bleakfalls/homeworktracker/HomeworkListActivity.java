@@ -102,7 +102,7 @@ public class HomeworkListActivity extends FragmentActivity
                 builder.append((char) ch);
             }
             String output = builder.toString();
-            System.out.println(output);
+            //System.out.println(output);
 
             int counter = 0;//counts the number of line separators reached
             String tempString = "";
@@ -140,16 +140,27 @@ public class HomeworkListActivity extends FragmentActivity
                     counter = 0;
                 }
             }
-            tempString = "";
+            tempString = ""; //REMEMBER IF RETRIEVE MORE THAN 7 ITEMS & IDS LIKE THIS AT THE END THE THING WILL BREAK!!!
+            counter = 0;
             for (int i=output.length()-1;i > 0; i--) {
                 if (output.charAt(i) == System.getProperty("line.separator").charAt(0)) {
-                    HomeworkContent.mCurrentID = Integer.valueOf(tempString);
-                    System.out.println("CURRENT ID: ");
-                    System.out.println(HomeworkContent.mCurrentID);
-                    break;
+                    if (counter == 1) {
+                        HomeworkContent.mCurrentID = Integer.valueOf(tempString);
+                        System.out.println("CURRENT ID: ");
+                        System.out.println(HomeworkContent.mCurrentID);
+                        break;
+                    }
+                    if (counter == 0) {
+                        HomeworkContent.mNotificationId = Integer.valueOf(tempString);
+                        counter++;
+                        tempString = "";
+                        System.out.println("CURRENT NOTIF: ");
+                        System.out.println(HomeworkContent.mNotificationId);
+                    }
                 }
                 else {
                     tempString = output.charAt(i) + tempString;
+                    //System.out.println(tempString);
                 }
             }
                 //System.out.println("constructing");
@@ -212,9 +223,11 @@ public class HomeworkListActivity extends FragmentActivity
                 fos.write(System.getProperty("line.separator").getBytes());
                 fos.write(tempHw.getId().toString().getBytes());fos.write(System.getProperty("line.separator").getBytes());
             }
-            fos.write(System.getProperty("line.separator").getBytes());
             Integer currentId = HomeworkContent.mCurrentID;
             fos.write(currentId.toString().getBytes());
+            fos.write(System.getProperty("line.separator").getBytes());
+            Integer notificationId = HomeworkContent.mNotificationId;
+            fos.write(notificationId.toString().getBytes());
             fos.close();
             System.out.println("OUTPUTTING DATA");
         } catch (Exception e) {

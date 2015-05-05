@@ -19,6 +19,7 @@ public class ReminderReceiver extends BroadcastReceiver {
     public static String HW_NAME = "NAME_OF_HOMEWORK_TO_DISPLAY_IN_NOTIFICATION";
     public static String HW_SUBJ_NAME = "SUBJECT_NAME_OF_HOMEWORK_TO_DISPLAY_IN_NOTIFICATION";
     public static String HW_ID = "HOMEWORK ID TO LOAD HW WHEN U CLICK ON THE NOTIFICATION";
+    public static String NOTIF_ID = "ID FOR NOTIFICATION";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -32,7 +33,8 @@ public class ReminderReceiver extends BroadcastReceiver {
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(notifyPendingIntent);
-        int mNotificationId= 1;
+        int mNotificationId= (Integer) intent.getExtras().get("NOTIF_ID");
+        System.out.println(mNotificationId);
         NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
         //System.out.println("NOTIFICATION CREATED");

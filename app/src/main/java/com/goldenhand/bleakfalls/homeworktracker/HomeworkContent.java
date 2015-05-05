@@ -23,6 +23,7 @@ public class HomeworkContent implements Serializable {
      */
     public static Map<String, Homework> HOMEWORK_MAP = new HashMap<String, Homework>();
     public static int mCurrentID = 0;
+    public static int mNotificationId = 0;
 
     /*static {
         addItem(new Homework("Assignment 1","Math",new GregorianCalendar(2015,4,4),new GregorianCalendar(2015,4,4),false,false,mCurrentID));
@@ -33,6 +34,11 @@ public class HomeworkContent implements Serializable {
         mHomeworkList.add(homework);
         HOMEWORK_MAP.put(homework.getId().toString(), homework);
         mCurrentID++;
+    }
+
+    public static Integer getNotificationId() {
+        mNotificationId++;
+        return mNotificationId;
     }
 
     public static void sortItems() {
