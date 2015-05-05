@@ -28,13 +28,13 @@ public class ReminderReceiver extends BroadcastReceiver {
                 .setContentTitle("REMINDER TO DO HOMEWORK!")
                 .setContentText(intent.getStringExtra(HW_NAME) + " - " + intent.getStringExtra(HW_SUBJ_NAME))
                 .setSmallIcon(R.drawable.clock);
+        String mNotificationId= intent.getStringExtra(NOTIF_ID);
+        System.out.println(mNotificationId);
         Intent notifyIntent = new Intent(context,HomeworkListActivity.class);
         notifyIntent.putExtra(HW_ID, intent.getStringExtra(HW_ID));
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, Integer.valueOf(mNotificationId), notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(notifyPendingIntent);
-        String mNotificationId= intent.getStringExtra(NOTIF_ID);
-        System.out.println(mNotificationId);
         NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.notify(Integer.valueOf(mNotificationId), mBuilder.build());
         //System.out.println("NOTIFICATION CREATED");

@@ -260,8 +260,9 @@ public class HomeworkListFragment extends ListFragment {
                     alarmIntent.putExtra(ReminderReceiver.HW_NAME, currentHomework.getName());
                     alarmIntent.putExtra(ReminderReceiver.HW_SUBJ_NAME, currentHomework.getSubjectName());
                     alarmIntent.putExtra(ReminderReceiver.HW_ID, currentHomework.getId().toString());
-                    alarmIntent.putExtra(ReminderReceiver.NOTIF_ID, HomeworkContent.getNotificationId().toString());
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    Integer mNotificationId = HomeworkContent.getNotificationId();
+                    alarmIntent.putExtra(ReminderReceiver.NOTIF_ID, mNotificationId.toString());
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), mNotificationId, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
                     Calendar tempAlarmTime = new GregorianCalendar(TimeZone.getTimeZone("UTC"));//CONVERT TIME TO UTC SO IT MATCHES INTERNAL CLOCK
