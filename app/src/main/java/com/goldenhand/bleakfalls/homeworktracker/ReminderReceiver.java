@@ -33,10 +33,10 @@ public class ReminderReceiver extends BroadcastReceiver {
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(notifyPendingIntent);
-        int mNotificationId= (Integer) intent.getExtras().get("NOTIF_ID");
+        String mNotificationId= intent.getStringExtra(NOTIF_ID);
         System.out.println(mNotificationId);
         NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+        mNotifyMgr.notify(Integer.valueOf(mNotificationId), mBuilder.build());
         //System.out.println("NOTIFICATION CREATED");
     }
 }
