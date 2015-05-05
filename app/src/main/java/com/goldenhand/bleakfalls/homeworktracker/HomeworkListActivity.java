@@ -162,6 +162,12 @@ public class HomeworkListActivity extends FragmentActivity
             HomeworkContent.addItem(new HomeworkContent.Homework("Practice Quiz","Physics",new GregorianCalendar(2015,4,5), new GregorianCalendar(2015,8,2),false,false,HomeworkContent.mCurrentID));
         }
 
+        if (getIntent().getExtras() != null) {
+            if (getIntent().getExtras().containsKey(ReminderReceiver.HW_ID)) {
+                onItemSelected((String) getIntent().getExtras().get(ReminderReceiver.HW_ID));
+            }
+        }
+
         //TODO:ADD EXTENSION TOO MUCH HW SEE COUNSELLOR
         //TODO: If exposing deep links into your app, handle intents here.
     }

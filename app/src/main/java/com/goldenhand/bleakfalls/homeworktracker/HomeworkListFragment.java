@@ -259,6 +259,7 @@ public class HomeworkListFragment extends ListFragment {
                     alarmIntent.setAction("com.goldenhand.bleakfalls.homeworktracker.ReminderReceiver.SET_NOTIFICATION");
                     alarmIntent.putExtra(ReminderReceiver.HW_NAME, currentHomework.getName());
                     alarmIntent.putExtra(ReminderReceiver.HW_SUBJ_NAME, currentHomework.getSubjectName());
+                    alarmIntent.putExtra(ReminderReceiver.HW_ID, currentHomework.getId().toString());
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
